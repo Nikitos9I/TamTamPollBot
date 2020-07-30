@@ -16,7 +16,7 @@ public class TextRU extends Text {
 
     @Override
     public String descriptionMessage() {
-        return "Для создания бота нажмите \"Create a poll\" в меню бота";
+        return "Для создания опроса нажмите \"Create a poll\" в меню бота";
     }
 
     @Override

@@ -25,16 +25,8 @@ import static java.util.Arrays.asList;
 public class Config {
 
     @Getter
-    private static String locale = "EN";
-    private static Logger logger;
-
-    @Getter
     private static List<String> subscriptions = asList("message_construction_request", "message_created",
             "message_callback", "bot_started", "message_constructed");
-
-    public Config(BotLogger logger) {
-        Config.logger = logger.getLogger(UpdateVisitor.class);
-    }
 
     @Bean
     public TamTamBotAPI getApi(@Value("${tamtambot.controller.access_token}") String token) {
@@ -44,11 +36,6 @@ public class Config {
     @Bean
     public TamTamSerializer getTamTamSerializer() {
         return new JacksonSerializer();
-    }
-
-    public static void setLocale(String locale) {
-        Config.locale = locale;
-        logger.info("Locale switched to " + Config.locale);
     }
 
 }

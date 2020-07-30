@@ -11,8 +11,8 @@ import com.freegroupdevelopers.TamTamVoteBot.support.Config;
 
 public abstract class Text {
 
-    public static Text text() {
-        switch (Config.getLocale()) {
+    public static Text text(String locale) {
+        switch (locale) {
             case "ru":
                 return new TextRU();
             default:

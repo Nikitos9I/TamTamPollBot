@@ -40,13 +40,13 @@ public class Process {
 
     private void makeInitialConstruction(ConstructorAnswer constructorAnswer, PollModel pm) {
         constructorAnswer
-                .hint(Text.text().choosePoll())
+                .hint(Text.text(pm.getLocale()).choosePoll())
                 .allowUserInput(false)
-                .keyboard(BotKeyboard.getInitialKeyboard());
+                .keyboard(BotKeyboard.getInitialKeyboard(pm.getLocale()));
     }
 
-    private void makeQuestionConstruction(ConstructorAnswer constructorAnswer) {
-        String _text = Text.text().questionMessage();
+    private void makeQuestionConstruction(ConstructorAnswer constructorAnswer, PollModel pm) {
+        String _text = Text.text(pm.getLocale()).questionMessage();
         constructorAnswer
                 .hint(_text)
                 .allowUserInput(true);
@@ -54,10 +54,10 @@ public class Process {
 
     private void makeAnswerConstruction(ConstructorAnswer constructorAnswer, PollModel pm) {
         int answerNumber = pm.getAnswers().size() + 1;
-        String _text = Text.text().answerMessage(answerNumber);
+        String _text = Text.text(pm.getLocale()).answerMessage(answerNumber);
 
         if (pm.getAnswers().size() == 0) {
-            String message = _text + Text.text().yourQuestion() + pm.getQuestion();
+            String message = _text + Text.text(pm.getLocale()).yourQuestion() + pm.getQuestion();
             constructorAnswer
                     .allowUserInput(true)
                     .hint(message)
@@ -79,7 +79,7 @@ public class Process {
         }
 
         if (pm.needQuestion()) {
-            makeQuestionConstruction(constructorAnswer);
+            makeQuestionConstruction(constructorAnswer, pm);
         } else {
             makeAnswerConstruction(constructorAnswer, pm);
         }
@@ -101,12 +101,13 @@ public class Process {
         }
     }
 
-    public void sendNewConstruction(String sessionId, ConstructorInput constructorInput, long userId) {
+    public void sendNewConstruction(String sessionId, ConstructorInput constructorInput, long userId, String locale) {
         PollModel pm = service.findPollBySessionId(sessionId);
 
         if (pm == null) {
             logger.info("New poll created");
             pm = new PollModel();
+            pm.setLocale(locale);
             pm.setSession(sessionId);
         }
 
@@ -189,15 +190,15 @@ public class Process {
         service.savePoll(senderId, pm);
     }
 
-    public void sayHello(long userId) {
-        String _text = Text.text().helloMessage();
+    public void sayHello(long userId, String locale) {
+        String _text = Text.text(locale).helloMessage();
         NewMessageBody message = new NewMessageBody(_text, null, null);
 
         sendMessage(message, userId);
     }
 
-    public void sendDescMessage(long userId) {
-        String _text = Text.text().descriptionMessage();
+    public void sendDescMessage(long userId, String locale) {
+        String _text = Text.text(locale).descriptionMessage();
         NewMessageBody message = new NewMessageBody(_text, null, null);
 
         sendMessage(message, userId);
@@ -209,8 +210,7 @@ public class Process {
                     .userId(userId)
                     .execute();
         } catch (ClientException | APIException e) {
-            System.out.println(e);
-            //TODO: handle exceptions
+            logger.error(e.getMessage());
         }
     }
 
@@ -218,8 +218,7 @@ public class Process {
         try {
             client.construct(constructorAnswer, sessionId).execute();
         } catch (APIException | ClientException e) {
-            System.out.println(e);
-            //TODO: handle exceptions
+            logger.error(e.getMessage());
         }
     }
 
@@ -227,8 +226,7 @@ public class Process {
         try {
             client.editMessage(messageBody, messageId).execute();
         } catch (APIException | ClientException e) {
-            System.out.println(e);
-            //TODO: handle exceptions
+            logger.error(e.getMessage());
         }
     }
 

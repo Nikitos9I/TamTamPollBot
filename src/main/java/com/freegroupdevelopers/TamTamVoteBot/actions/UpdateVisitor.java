@@ -31,10 +31,9 @@ public class UpdateVisitor implements Update.Visitor {
 
     @Override
     public void visit(MessageCreatedUpdate model) {
-        Config.setLocale(model.getUserLocale());
         long userId = model.getMessage().getSender().getUserId();
 
-        process.sendDescMessage(userId);
+        process.sendDescMessage(userId, model.getUserLocale());
     }
 
     @Override
@@ -77,12 +76,11 @@ public class UpdateVisitor implements Update.Visitor {
 
     @Override
     public void visit(BotStartedUpdate model) {
-        Config.setLocale(model.getUserLocale());
         User user = model.getUser();
         long userId = user.getUserId();
 
         service.saveUser(user.getUserId(), user.getUsername());
-        process.sayHello(userId);
+        process.sayHello(userId, model.getUserLocale());
 
         logger.info("Bot was added by user: " + user.getUserId());
     }
@@ -94,11 +92,10 @@ public class UpdateVisitor implements Update.Visitor {
 
     @Override
     public void visit(MessageConstructionRequest model) {
-        Config.setLocale(model.getUserLocale());
         String sessionId = model.getSessionId();
         ConstructorInput constructorInput = model.getInput();
         User user = model.getUser();
-        process.sendNewConstruction(sessionId, constructorInput, user.getUserId());
+        process.sendNewConstruction(sessionId, constructorInput, user.getUserId(), model.getUserLocale());
     }
 
     @Override

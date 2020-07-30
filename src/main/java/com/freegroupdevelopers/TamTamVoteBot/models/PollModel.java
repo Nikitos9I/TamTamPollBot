@@ -42,6 +42,13 @@ public class PollModel {
     @Getter
     @Setter
     @Column
+    private String locale;
+
+    @NotNull
+    @NotEmpty
+    @Getter
+    @Setter
+    @Column
     private String session;
 
     @NotNull
@@ -136,7 +143,7 @@ public class PollModel {
 
     public String getMessageText() {
         StringBuilder res = new StringBuilder();
-        res.append(Text.text().pollType(isPublic)).append(question);
+        res.append(Text.text(locale).pollType(isPublic)).append(question);
         res.append(System.lineSeparator()).append(System.lineSeparator());
 
         for (int i = 0; i < answers.size(); ++i) {
@@ -160,7 +167,7 @@ public class PollModel {
         }
 
         if (answers.size() > 0)
-            res.append(System.lineSeparator()).append(Text.text().globalCount(votesCount));
+            res.append(System.lineSeparator()).append(Text.text(locale).globalCount(votesCount));
 
         return res.toString();
     }
