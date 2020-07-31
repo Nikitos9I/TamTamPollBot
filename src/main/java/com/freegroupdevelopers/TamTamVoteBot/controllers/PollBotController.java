@@ -58,8 +58,8 @@ public class PollBotController {
 
         BotPatch botPatch = new BotPatch()
                 .name("PollBot")
-                .description("TamTam bot for creating polls. Add poll to any chat.");
-//                .photo(photoAttachment);
+                .description("TamTam bot for creating polls. Add poll to any chat.")
+                .photo(photoAttachment);
 
         tamTamBotAPI.editMyInfo(botPatch).execute();
 
@@ -88,6 +88,12 @@ public class PollBotController {
         if (update != null) {
             update.visit(handler);
         }
+    }
+
+    @RequestMapping("ping")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void pong() {
+        logger.info("Ping caught: pong");
     }
 
     @Nullable
