@@ -11,7 +11,7 @@ public class TextEN extends Text {
 
     @Override
     public String helloMessage() {
-        return "Hello, this is a VoteBot.\n\nAt first, please, press \"Create a poll\" in bot menu";
+        return "Hello, this is a PollBot.\n\nAt first, please, press \"Create a poll\" in bot menu";
     }
 
     @Override
