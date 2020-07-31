@@ -11,7 +11,7 @@ public class TextRU extends Text {
 
     @Override
     public String helloMessage() {
-        return "Привет! Я VoteBot. Я буду помогать Вам в создании простых опросов.\n\nЧтобы создать опрос, нажмите \"Create a poll\" в меню бота";
+        return "Привет! Я PollBot. Я буду помогать Вам в создании простых опросов.\n\nЧтобы создать опрос, нажмите \"Create a poll\" в меню бота";
     }
 
     @Override
