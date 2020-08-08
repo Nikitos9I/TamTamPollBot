@@ -71,4 +71,34 @@ public class TextRU extends Text {
         return ". Ваш вопрос: ";
     }
 
+    @Override
+    public String chooseMultiPoll() {
+        return "Выберите формат опроса";
+    }
+
+    @Override
+    public String gotVote() {
+        return "Ваш голос учтён";
+    }
+
+    @Override
+    public String votingDenied() {
+        return "Вы уже оставили свой голос в этом опросе";
+    }
+
+    @Override
+    public String alreadyVoted() {
+        return "Вы уже голосовали за этот вариант ответа";
+    }
+
+    @Override
+    public String soloPoll() {
+        return "Единичный выбор";
+    }
+
+    @Override
+    public String multiPoll() {
+        return "Множественный выбор";
+    }
+
 }

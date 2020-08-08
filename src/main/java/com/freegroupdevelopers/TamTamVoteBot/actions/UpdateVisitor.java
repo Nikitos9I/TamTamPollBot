@@ -41,7 +41,8 @@ public class UpdateVisitor implements Update.Visitor {
         String mId = Objects.requireNonNull(model.getMessage()).getBody().getMid();
         String payload = model.getCallback().getPayload();
         User user = model.getCallback().getUser();
-        process.updatePublishedVote(payload, mId, user);
+        String callbackId = model.getCallback().getCallbackId();
+        process.updatePublishedVote(payload, mId, user, callbackId);
     }
 
     @Override

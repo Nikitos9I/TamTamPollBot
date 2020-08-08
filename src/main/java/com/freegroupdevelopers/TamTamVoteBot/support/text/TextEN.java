@@ -71,4 +71,34 @@ public class TextEN extends Text {
         return ". Your question is: ";
     }
 
+    @Override
+    public String chooseMultiPoll() {
+        return "Please, choose format of poll";
+    }
+
+    @Override
+    public String gotVote() {
+        return "Your vote is counted";
+    }
+
+    @Override
+    public String votingDenied() {
+        return "Sorry, You can only vote once";
+    }
+
+    @Override
+    public String alreadyVoted() {
+        return "Sorry, You have already picked this option";
+    }
+
+    @Override
+    public String soloPoll() {
+        return "Single choice";
+    }
+
+    @Override
+    public String multiPoll() {
+        return "Multiple choice";
+    }
+
 }

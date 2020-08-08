@@ -4,6 +4,7 @@ import chat.tamtam.botapi.TamTamBotAPI;
 import chat.tamtam.botapi.exceptions.APIException;
 import chat.tamtam.botapi.exceptions.ClientException;
 import chat.tamtam.botapi.model.*;
+import chat.tamtam.botapi.queries.AnswerOnCallbackQuery;
 import com.freegroupdevelopers.TamTamVoteBot.models.AnswerModel;
 import com.freegroupdevelopers.TamTamVoteBot.models.PollModel;
 import com.freegroupdevelopers.TamTamVoteBot.models.UserModel;
@@ -38,11 +39,18 @@ public class Process {
         this.service = service;
     }
 
-    private void makeInitialConstruction(ConstructorAnswer constructorAnswer, PollModel pm) {
+    private void makeIsPublicConstruction(ConstructorAnswer constructorAnswer, PollModel pm) {
         constructorAnswer
                 .hint(Text.text(pm.getLocale()).choosePoll())
                 .allowUserInput(false)
-                .keyboard(BotKeyboard.getInitialKeyboard(pm.getLocale()));
+                .keyboard(BotKeyboard.getIsPublicKeyboard(pm.getLocale()));
+    }
+
+    private void makeIsMultiVoteConstruction(ConstructorAnswer constructorAnswer, PollModel pm) {
+        constructorAnswer
+                .hint(Text.text(pm.getLocale()).chooseMultiPoll())
+                .allowUserInput(false)
+                .keyboard(BotKeyboard.getIsMultiVoteKeyboard(pm.getLocale()));
     }
 
     private void makeQuestionConstruction(ConstructorAnswer constructorAnswer, PollModel pm) {
@@ -74,7 +82,12 @@ public class Process {
         ConstructorAnswer constructorAnswer = new ConstructorAnswer();
 
         if (pm.getIsPublic() == null) {
-            makeInitialConstruction(constructorAnswer, pm);
+            makeIsPublicConstruction(constructorAnswer, pm);
+            return constructorAnswer;
+        }
+
+        if (pm.getIsMultiVote() == null) {
+            makeIsMultiVoteConstruction(constructorAnswer, pm);
             return constructorAnswer;
         }
 
@@ -130,10 +143,21 @@ public class Process {
             String payload = ((CallbackConstructorInput) constructorInput).getPayload();
             logger.info("Setup poll to " + payload + " type");
 
-            if (payload.equals("public")) {
-                pm.setIsPublic(true);
-            } else if (payload.equals("anon")) {
-                pm.setIsPublic(false);
+            switch (payload) {
+                case "public":
+                    pm.setIsPublic(true);
+                    break;
+                case "anon":
+                    pm.setIsPublic(false);
+                    break;
+                case "solo":
+                    pm.setIsMultiVote(false);
+                    break;
+                case "multi":
+                    pm.setIsMultiVote(true);
+                    break;
+                default:
+                    logger.error("Callback button with undefined payload: " + payload);
             }
 
             ConstructorAnswer constructorAnswer = makeCurrentConstruction(pm);
@@ -142,7 +166,7 @@ public class Process {
         }
     }
 
-    public void updatePublishedVote(String payload, String messageId, User user) {
+    public void updatePublishedVote(String payload, String messageId, User user, String callbackId) {
         PollModel pm = service.findPollByMessageId(messageId);
         UserModel voter = service.findUserById(user.getUserId());
 
@@ -159,7 +183,24 @@ public class Process {
         }
 
         if (pm.getVotedUsers().contains(voter)) {
-            return;
+            CallbackAnswer cb = new CallbackAnswer();
+
+            if (!pm.getIsMultiVote()) {
+                cb.setNotification(Text.text(pm.getLocale()).votingDenied());
+                sendNotification(cb, callbackId);
+                return;
+            } else {
+                AnswerModel valid = pm.getAnswers().stream()
+                        .filter(e -> e.getPayload().equals(payload)).findAny().orElseThrow();
+
+                if (valid.getVotedUsers().contains(voter)) {
+                    cb.setNotification(Text.text(pm.getLocale()).alreadyVoted());
+                    sendNotification(cb, callbackId);
+                    return;
+                }
+
+                pm.setVotesCount(pm.getVotesCount() - 1);
+            }
         }
 
         AnswerModel am = pm.getAnswers().stream().filter(e -> e.getPayload().equals(payload)).findAny().orElseThrow();
@@ -175,6 +216,10 @@ public class Process {
         service.savePoll(pm.getAuthor().getId(), pm);
 
         NewMessageBody mb = new NewMessageBody(pm.getMessageText(), null, null);
+        CallbackAnswer cb = new CallbackAnswer()
+                .notification(Text.text(pm.getLocale()).gotVote());
+
+        sendNotification(cb, callbackId);
         updateMessage(mb, messageId);
     }
 
@@ -226,6 +271,14 @@ public class Process {
         try {
             client.editMessage(messageBody, messageId).execute();
         } catch (APIException | ClientException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void sendNotification(CallbackAnswer cb, String id) {
+        try {
+            client.answerOnCallback(cb, id).execute();
+        } catch (ClientException | APIException e) {
             logger.error(e.getMessage());
         }
     }

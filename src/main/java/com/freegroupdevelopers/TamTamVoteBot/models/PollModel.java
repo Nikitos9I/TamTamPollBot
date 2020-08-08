@@ -37,6 +37,11 @@ public class PollModel {
     @Column
     private Boolean isPublic;
 
+    @Getter
+    @Setter
+    @Column
+    private Boolean isMultiVote;
+
     @NotNull
     @NotEmpty
     @Getter

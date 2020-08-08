@@ -67,4 +67,10 @@ public abstract class Text {
     public abstract String anonPoll();
     public abstract String choosePoll();
     public abstract String yourQuestion();
+    public abstract String chooseMultiPoll();
+    public abstract String gotVote();
+    public abstract String votingDenied();
+    public abstract String alreadyVoted();
+    public abstract String soloPoll();
+    public abstract String multiPoll();
 }

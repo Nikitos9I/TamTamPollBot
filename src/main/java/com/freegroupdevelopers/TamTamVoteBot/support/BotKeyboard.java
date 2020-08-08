@@ -15,13 +15,28 @@ import java.util.List;
 
 public class BotKeyboard {
 
-    public static Keyboard getInitialKeyboard(String locale) {
+    public static Keyboard getIsPublicKeyboard(String locale) {
         List<List<Button>> buttons = new ArrayList<>();
         buttons.add(new ArrayList<>());
 
         Button pb = new CallbackButton("public", Text.text(locale).publicPoll())
                 .intent(Intent.POSITIVE);
         Button ab = new CallbackButton("anon", Text.text(locale).anonPoll())
+                .intent(Intent.NEGATIVE);
+
+        buttons.get(0).add(pb);
+        buttons.get(0).add(ab);
+
+        return new Keyboard(buttons);
+    }
+
+    public static Keyboard getIsMultiVoteKeyboard(String locale) {
+        List<List<Button>> buttons = new ArrayList<>();
+        buttons.add(new ArrayList<>());
+
+        Button pb = new CallbackButton("solo", Text.text(locale).soloPoll())
+                .intent(Intent.POSITIVE);
+        Button ab = new CallbackButton("multi", Text.text(locale).multiPoll())
                 .intent(Intent.NEGATIVE);
 
         buttons.get(0).add(pb);
