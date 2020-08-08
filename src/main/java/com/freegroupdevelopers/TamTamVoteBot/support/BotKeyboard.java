@@ -22,7 +22,7 @@ public class BotKeyboard {
         Button pb = new CallbackButton("public", Text.text(locale).publicPoll())
                 .intent(Intent.POSITIVE);
         Button ab = new CallbackButton("anon", Text.text(locale).anonPoll())
-                .intent(Intent.POSITIVE);
+                .intent(Intent.NEGATIVE);
 
         buttons.get(0).add(pb);
         buttons.get(0).add(ab);
