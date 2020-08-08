@@ -19,8 +19,10 @@ public class BotKeyboard {
         List<List<Button>> buttons = new ArrayList<>();
         buttons.add(new ArrayList<>());
 
-        Button pb = new CallbackButton("public", Text.text(locale).publicPoll());
-        Button ab = new CallbackButton("anon", Text.text(locale).anonPoll());
+        Button pb = new CallbackButton("public", Text.text(locale).publicPoll())
+                .intent(Intent.POSITIVE);
+        Button ab = new CallbackButton("anon", Text.text(locale).anonPoll())
+                .intent(Intent.POSITIVE);
 
         buttons.get(0).add(pb);
         buttons.get(0).add(ab);

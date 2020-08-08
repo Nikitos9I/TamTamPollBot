@@ -130,7 +130,7 @@ public class PollModel {
 
         for (int i = 0; i < answers.size(); ++i) {
             AnswerModel e = answers.get(i);
-            buttons.add(new CallbackButton(e.getPayload(), Text.getPrefix(i + 1)));
+            buttons.add(new CallbackButton(e.getPayload(), Text.getPrefix(i + 1)).intent(Intent.POSITIVE));
         }
 
         InlineKeyboardAttachmentRequestPayload keyboardAttachmentRequest =
