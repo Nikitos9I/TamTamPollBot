@@ -61,14 +61,14 @@ public class PollModel {
     @Getter
     @Setter
     @Column
-    private int votesToShow;
+    private Integer votesToShow;
 
     @NotNull
     @NotEmpty
     @Getter
     @Setter
     @Column
-    private int votesCount;
+    private Integer votesCount;
 
     @Getter
     @Setter

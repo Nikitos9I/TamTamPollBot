@@ -121,6 +121,8 @@ public class Process {
             logger.info("New poll created");
             pm = new PollModel();
             pm.setLocale(locale);
+            pm.setVotesToShow(0);
+            pm.setVotesCount(0);
             pm.setSession(sessionId);
         }
 
