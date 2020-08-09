@@ -199,13 +199,14 @@ public class Process {
                     return;
                 }
 
-                pm.setVotesCount(pm.getVotesCount() - 1);
+                pm.setVotesToShow(pm.getVotesToShow() - 1);
             }
         }
 
         AnswerModel am = pm.getAnswers().stream().filter(e -> e.getPayload().equals(payload)).findAny().orElseThrow();
         am.setVotesCount(am.getVotesCount() + 1);
         am.addVotedUser(voter);
+        pm.setVotesToShow(pm.getVotesToShow() + 1);
         pm.setVotesCount(pm.getVotesCount() + 1);
         pm.addVotedUser(voter);
         voter.addVotedPoll(pm);

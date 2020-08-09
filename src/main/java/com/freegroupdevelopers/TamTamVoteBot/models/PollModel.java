@@ -61,6 +61,13 @@ public class PollModel {
     @Getter
     @Setter
     @Column
+    private int votesToShow;
+
+    @NotNull
+    @NotEmpty
+    @Getter
+    @Setter
+    @Column
     private int votesCount;
 
     @Getter
@@ -172,7 +179,7 @@ public class PollModel {
         }
 
         if (answers.size() > 0)
-            res.append(System.lineSeparator()).append(Text.text(locale).globalCount(votesCount));
+            res.append(System.lineSeparator()).append(Text.text(locale).globalCount(votesToShow));
 
         return res.toString();
     }
