@@ -2,7 +2,6 @@ package com.freegroupdevelopers.TamTamVoteBot.repository;
 
 import com.freegroupdevelopers.TamTamVoteBot.models.PollModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 /**
  * Project: TamTamVoteBot

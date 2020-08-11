@@ -4,7 +4,6 @@ import chat.tamtam.botapi.TamTamBotAPI;
 import chat.tamtam.botapi.exceptions.APIException;
 import chat.tamtam.botapi.exceptions.ClientException;
 import chat.tamtam.botapi.model.*;
-import chat.tamtam.botapi.queries.AnswerOnCallbackQuery;
 import com.freegroupdevelopers.TamTamVoteBot.models.AnswerModel;
 import com.freegroupdevelopers.TamTamVoteBot.models.PollModel;
 import com.freegroupdevelopers.TamTamVoteBot.models.UserModel;

@@ -8,9 +8,6 @@ import com.freegroupdevelopers.TamTamVoteBot.repository.UserRepository;
 import com.freegroupdevelopers.TamTamVoteBot.repository.PollRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 /**
  * Project: TamTamVoteBot
  * This code was created by nikita.savinov

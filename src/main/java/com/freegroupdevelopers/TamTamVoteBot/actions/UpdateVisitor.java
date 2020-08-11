@@ -3,7 +3,6 @@ package com.freegroupdevelopers.TamTamVoteBot.actions;
 import chat.tamtam.botapi.model.*;
 import com.freegroupdevelopers.TamTamVoteBot.services.ServiceImpl;
 import com.freegroupdevelopers.TamTamVoteBot.support.BotLogger;
-import com.freegroupdevelopers.TamTamVoteBot.support.Config;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -47,32 +46,32 @@ public class UpdateVisitor implements Update.Visitor {
 
     @Override
     public void visit(MessageEditedUpdate model) {
-        logger.info("I AM in MessageEditedUpdate");
+        // Not subscribed
     }
 
     @Override
     public void visit(MessageRemovedUpdate model) {
-        logger.info("I AM in MessageRemovedUpdate");
+        // Not subscribed
     }
 
     @Override
     public void visit(BotAddedToChatUpdate model) {
-        logger.info("I AM in BotAddedToChatUpdate");
+        // Not subscribed
     }
 
     @Override
     public void visit(BotRemovedFromChatUpdate model) {
-        logger.info("I AM in BotRemovedFromChatUpdate");
+        // Not subscribed
     }
 
     @Override
     public void visit(UserAddedToChatUpdate model) {
-        logger.info("I AM in UserAddedToChatUpdate");
+        // Not subscribed
     }
 
     @Override
     public void visit(UserRemovedFromChatUpdate model) {
-        logger.info("I AM in UserRemovedFromChatUpdate");
+        // Not subscribed
     }
 
     @Override
@@ -88,7 +87,7 @@ public class UpdateVisitor implements Update.Visitor {
 
     @Override
     public void visit(ChatTitleChangedUpdate model) {
-
+        // Not subscribed
     }
 
     @Override
@@ -109,12 +108,12 @@ public class UpdateVisitor implements Update.Visitor {
 
     @Override
     public void visit(MessageChatCreatedUpdate model) {
-        logger.info("I AM in MessageChatCreatedUpdate");
+        // Not subscribed
     }
 
     @Override
     public void visitDefault(Update model) {
-
+        logger.warn("Visit Default");
     }
 
 }

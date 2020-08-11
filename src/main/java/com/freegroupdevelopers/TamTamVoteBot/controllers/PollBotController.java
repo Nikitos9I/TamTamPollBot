@@ -47,7 +47,7 @@ public class PollBotController {
     @Value("${tamtambot.controller.host}")
     private String host;
 
-//    @PostConstruct
+    @PostConstruct
     private void setupBot() throws ClientException, APIException {
         if (tamTamBotAPI == null) {
             return;

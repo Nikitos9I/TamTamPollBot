@@ -1,7 +1,5 @@
 package com.freegroupdevelopers.TamTamVoteBot.support.text;
 
-import com.freegroupdevelopers.TamTamVoteBot.support.Config;
-
 /**
  * Project: TamTamBot
  * This code was created by nikita.savinov
